@@ -152,7 +152,7 @@ npm run create-admin
 npm run dev
 ```
 
-`npm run seed:demo` inserts sample plans, sample trainer profiles, and sample hours only where those named records do not already exist. Review/edit those records through the admin dashboard. `npm run create-admin` prompts interactively for an admin name, email, and a password that is not echoed in a TTY. It does not expose a public admin-signup endpoint.
+`npm run seed:demo` inserts sample plans, sample trainer profiles, and sample hours only where those named records do not already exist. Review/edit those records through the admin dashboard. `npm run create-admin` prompts interactively for an admin name, email, and a password that is not echoed in a TTY. It does not expose a public admin-signup endpoint. To reset an existing admin account's password, run `npm run reset-admin-password` from `server`; enter the account email and new password at the prompts. The reset command only changes an existing admin account.
 
 The server waits for a successful MongoDB connection before listening on port `5000`. Check `http://localhost:5000/api/health` after it starts.
 
