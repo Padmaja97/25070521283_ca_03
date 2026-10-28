@@ -1,6 +1,7 @@
 require('dotenv').config();
 const readline = require('readline');
 const mongoose = require('mongoose');
+const connectDatabase = require('../config/db');
 const User = require('../models/User');
 
 function ask(question) {
@@ -46,7 +47,7 @@ async function main() {
   if (name.length < 2 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || password.length < 8 || password.length > 72) {
     throw new Error('Invalid input. Name must be 2+ characters, email valid, and password 8–72 characters.');
   }
-  await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 });
+  await connectDatabase();
   if (await User.exists({ email })) throw new Error('An account with this email already exists; no account was changed.');
   const user = await User.create({ name, email, password, role: 'admin' });
   console.log(`Admin account created for ${user.email}.`);

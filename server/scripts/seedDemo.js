@@ -1,5 +1,6 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const connectDatabase = require('../config/db');
 const MembershipPlan = require('../models/MembershipPlan');
 const Trainer = require('../models/Trainer');
 const GymSettings = require('../models/GymSettings');
@@ -18,8 +19,7 @@ const trainers = [
 ];
 
 async function seed() {
-  if (!process.env.MONGODB_URI) throw new Error('Configure MONGODB_URI in server/.env first.');
-  await mongoose.connect(process.env.MONGODB_URI, { serverSelectionTimeoutMS: 10000 });
+  await connectDatabase();
   for (const plan of plans) await MembershipPlan.updateOne({ name: plan.name }, { $setOnInsert: plan }, { upsert: true });
   for (const trainer of trainers) await Trainer.updateOne({ name: trainer.name }, { $setOnInsert: trainer }, { upsert: true });
   await GymSettings.updateOne({ key: 'main' }, {
